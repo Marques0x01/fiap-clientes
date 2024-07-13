@@ -8,15 +8,15 @@ exports.handler = async (event) => {
   try {
     let response;
     switch (method) {
-      case "/fiap-lanches/clients-POST":
+      case "/fiap-lanches/client-POST":
         response = await clientService.create(JSON.parse(event.body));
         break;
 
-      case "/fiap-lanches/clients-DELETE":
+      case "/fiap-lanches/client-DELETE":
         response = await clientService.delete(event.queryStringParameters.id);
         break;
 
-      case "/fiap-lanches/clients-GET":
+      case "/fiap-lanches/client-GET":
         response = await clientService.get(event.queryStringParameters.id);
         break;
 
