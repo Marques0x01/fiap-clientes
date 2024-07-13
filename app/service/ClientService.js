@@ -1,14 +1,9 @@
 const { ClientRepository } = require("../repository/ClientRepository.js").default;
 
 class ClientService {
-    clientRepository;
-
-    constructor() {
-        this.clientRepository = new ClientRepository();
-    }
-
     async create(client) {
-        let clientId = this.clientRepository.save(client)
+        let clientRepository = new ClientRepository();
+        let clientId = await clientRepository.save(client).then(resp => resp);
 
         return {
             statusCode: 201,
@@ -21,7 +16,8 @@ class ClientService {
     }
 
     async delete(clientId) {
-        this.clientRepository.delete(clientId)
+        let clientRepository = new ClientRepository();
+        await clientRepository.delete(clientId).then(resp => resp);
 
         return {
             statusCode: 200,
@@ -34,7 +30,8 @@ class ClientService {
     }
 
     async get(clientId) {
-        let response = this.clientRepository.get(clientId);
+        let clientRepository = new ClientRepository();
+        let response = await clientRepository.get(clientId).then(resp => resp);
 
         return {
             statusCode: 200,

@@ -27,6 +27,7 @@ class ClientRepository {
             console.log('Client created:', result.rows[0]);
         } catch (err) {
             console.error('Error in create client:', err.stack);
+            throw new Error(err)
         } finally {
             await connection.end();
             return clientId;
@@ -45,6 +46,7 @@ class ClientRepository {
             console.log('Client deleted');
         } catch (err) {
             console.error('Error in getting deleted:', err.stack);
+            throw new Error(err)
         } finally {
             await connection.end();
         }
@@ -66,6 +68,7 @@ class ClientRepository {
             console.log('client recovered');
         } catch (err) {
             console.error('Error in getting client:', err.stack);
+            throw new Error(err)
         } finally {
             await connection.end();
             return result.rows;
