@@ -1,0 +1,77 @@
+const { Database } = require("../config/DatabaseConfig.js").default;
+const { v4: uuidv4 } = require('uuid');
+
+class ClientRepository {
+
+    async save(client) {
+        let TABLE = 'public."client"';
+
+        const clientId = uuidv4();
+
+        const connection = new Database();
+
+        const queryOrder = `INSERT INTO ${TABLE} 
+        (id, name, address, phone)
+        VALUES ($1, $2, $3, $4)`;
+
+        const clientValues = [
+            clientId,
+            client.name,
+            client.address,
+            client.phone
+        ];
+
+
+        try {
+            const result = await connection.query(queryOrder, clientValues);
+            console.log('Client created:', result.rows[0]);
+        } catch (err) {
+            console.error('Error in create client:', err.stack);
+        } finally {
+            await connection.end();
+            return clientId;
+        }
+    }
+
+    async delete(clientId) {
+        let TABLE = 'public."client"';
+        const connection = new Database();
+
+        const queryClient = `DELETE FROM ${TABLE} WHERE id = '${clientId}';`;
+
+        let result = null
+        try {
+            result = await connection.query(queryClient, null);
+            console.log('Client deleted');
+        } catch (err) {
+            console.error('Error in getting deleted:', err.stack);
+        } finally {
+            await connection.end();
+        }
+    }
+
+    async get(id) {
+        let TABLE = 'public."client"';
+        const connection = new Database();
+
+        const queryClient = `SELECT * FROM ${TABLE}`;
+
+        if(id != null){
+            queryClient += ` where id = '${id}'`;
+        }
+
+        let result = null
+        try {
+            result = await connection.query(queryClient, null);
+            console.log('client recovered');
+        } catch (err) {
+            console.error('Error in getting client:', err.stack);
+        } finally {
+            await connection.end();
+            return result.rows;
+        }
+    }
+
+}
+
+exports.default = { ClientRepository }

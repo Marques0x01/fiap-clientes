@@ -1,0 +1,59 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Transform: AWS::Serverless-2016-10-31
+
+Resources:
+  MyFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: index.handler
+      Runtime: nodejs14.x
+      CodeUri: .
+      Events:
+        create:
+          Type: Api
+          Properties:
+            Path: /fiap-lanches/create-account
+            Method: post
+            RequestTemplates:
+              application/json: |
+                {
+                  "cpf": "$input.path('$.cpf')",
+                  "code": "$input.path('$.code')"
+                }
+        confirm:
+          Type: Api
+          Properties:
+            Path: /fiap-lanches/user-confirmation
+            Method: post
+            RequestTemplates:
+              application/json: |
+                {
+                  "cpf": "$input.path('$.cpf')",
+                  "code": "$input.path('$.code')"
+                }
+        login:
+          Type: Api
+          Properties:
+            Path: /fiap-lanches/login
+            Method: post
+            RequestTemplates:
+              application/json: |
+                {
+                  "cpf": "$input.path('$.cpf')",
+                  "code": "$input.path('$.code')"
+                }
+
+Globals:
+  Function:
+    Timeout: 10
+
+# Configuração para depuração
+DebugFunction:
+  Type: AWS::Serverless::Function
+  Properties:
+    CodeUri: hello_world/
+    Handler: app.lambdaHandler
+    Runtime: nodejs14.x
+    Timeout: 900
+    # Porta para depuração
+    DebugPort: 5858
