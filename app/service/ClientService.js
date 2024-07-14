@@ -48,11 +48,23 @@ class ClientService {
         let clientRepository = new ClientRepository();
         let response = await clientRepository.getById(clientId).then(resp => resp);
 
+        if (response == null) {
+            return {
+                statusCode: 404,
+                body: JSON.stringify({
+                    message: (`client not found`),
+                    statusCode: 404,
+                    clientId: clientId
+                })
+            }
+        }
+
         return {
             statusCode: 200,
             body: JSON.stringify({
                 message: (`client recovered`),
                 statusCode: 200,
+                clientId: clientId,
                 client: response
             })
         }
