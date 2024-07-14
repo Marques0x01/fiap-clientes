@@ -87,7 +87,7 @@ class ClientRepository {
             throw new Error(err)
         } finally {
             await connection.end();
-            return result.rows;
+            return result;
         }
     }
 
