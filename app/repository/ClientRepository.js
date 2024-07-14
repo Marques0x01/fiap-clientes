@@ -11,14 +11,15 @@ class ClientRepository {
         const connection = new Database();
 
         const queryOrder = `INSERT INTO ${TABLE} 
-        (id, name, address, phone)
-        VALUES ($1, $2, $3, $4)`;
+        (id, name, address, phone, cpf)
+        VALUES ($1, $2, $3, $4, $5)`;
 
         const clientValues = [
             clientId,
             client.name,
             client.address,
-            client.phone
+            client.phone,
+            client.cpf
         ];
 
 
@@ -38,7 +39,7 @@ class ClientRepository {
         let TABLE = 'public."client"';
         const connection = new Database();
 
-        const queryClient = `DELETE FROM ${TABLE} WHERE id = '${clientId}';`;
+        const queryClient = `DELETE FROM ${TABLE} WHERE id = '${clientId}' OR cpf = '${clientId}';`;
 
         let result = null
         try {
@@ -76,7 +77,7 @@ class ClientRepository {
         let TABLE = 'public."client"';
         const connection = new Database();
 
-        const queryClient = `SELECT * FROM ${TABLE} WHERE id = ${clientId} OR cpf = ${clientId}`;
+        const queryClient = `SELECT * FROM ${TABLE} WHERE id = '${clientId}' OR cpf = '${clientId}'`;
 
         let result = null
         try {
