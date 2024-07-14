@@ -29,9 +29,24 @@ class ClientService {
         }
     }
 
-    async get(clientId) {
+    async get() {
         let clientRepository = new ClientRepository();
-        let response = await clientRepository.get(clientId).then(resp => resp);
+        let response = await clientRepository.get().then(resp => resp);
+
+        return {
+            statusCode: 200,
+            body: JSON.stringify({
+                message: (`client recovered`),
+                statusCode: 200,
+                client: response
+            })
+        }
+    }
+
+
+    async getById(clientId) {
+        let clientRepository = new ClientRepository();
+        let response = await clientRepository.getById(clientId).then(resp => resp);
 
         return {
             statusCode: 200,

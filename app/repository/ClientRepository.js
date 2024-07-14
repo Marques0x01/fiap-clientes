@@ -52,15 +52,31 @@ class ClientRepository {
         }
     }
 
-    async get(id) {
+    async get() {
         let TABLE = 'public."client"';
         const connection = new Database();
 
         const queryClient = `SELECT * FROM ${TABLE}`;
 
-        if(id != null){
-            queryClient += ` where id = '${id}'`;
+        let result = null
+        try {
+            result = await connection.query(queryClient, null);
+            console.log('client recovered');
+        } catch (err) {
+            console.error('Error in getting client:', err.stack);
+            throw new Error(err)
+        } finally {
+            await connection.end();
+            return result.rows;
         }
+    }
+
+
+    async getById(clientId) {
+        let TABLE = 'public."client"';
+        const connection = new Database();
+
+        const queryClient = `SELECT * FROM ${TABLE} WHERE id = ${clientId} OR cpf = ${clientId}`;
 
         let result = null
         try {

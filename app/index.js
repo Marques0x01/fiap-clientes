@@ -17,8 +17,12 @@ exports.handler = async (event) => {
         break;
 
       case "/fiap-lanches/client-GET":
-        response = await clientService.get(event.queryStringParameters.id);
+        response = await clientService.get();
         break;
+
+        case "/fiap-lanches/client/client_id-GET":
+          response = await clientService.getById(event.queryStringParameters.id);
+          break;
 
       default:
         return {
