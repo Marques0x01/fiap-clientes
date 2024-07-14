@@ -76,7 +76,7 @@ class ClientRepository {
     async getById(clientId) {
         let TABLE = 'public."client"';
         const connection = new Database();
-        const queryClient = ""
+        let queryClient = ""
         
         if(clientId.includes("-")){
             queryClient = `SELECT * FROM ${TABLE} WHERE id = '${clientId}'`;
