@@ -78,7 +78,7 @@ class ClientRepository {
         const connection = new Database();
         const queryClient = ""
         
-        if(clientId.contains("-")){
+        if(clientId.includes("-")){
             queryClient = `SELECT * FROM ${TABLE} WHERE id = '${clientId}'`;
         } else {
             queryClient = `SELECT * FROM ${TABLE} WHERE cpf = '${clientId}'`;
@@ -93,7 +93,7 @@ class ClientRepository {
             throw new Error(err)
         } finally {
             await connection.end();
-            if (result){
+            if (result != null){
                 return result.rows;
             } 
 
